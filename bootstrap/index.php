@@ -79,11 +79,11 @@
                         <h1 class="brand-heading">SongSmoothie</h1>
                             <div id="searchForm" action="" method="GET">
 
-                                <input type="text" name="song" placeholder="Song title..."/>
+                                <input type="text" name="song" placeholder="Song title or artist"/>
                                     <a href="#about" class="page-scroll" >
-                                <input type="submit"/>
+                                <input type="submit" value="Search" />
                                     </a>
-                                   
+
                             </div>
 
                     </div>
@@ -141,7 +141,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>Contact SongSmoothie</h2>
-                <p>Feel free to email us to provide some feedback on our mash-up, give us suggestions for new templates and themes, or to just say hello!</p>
+                <p>Feel free to email us to provide some feedback on our mash-up, give us suggestions for new designs and API:s, or to just say hello!</p>
                 <p><a href="mailto:songsmoothie@gmail.com">songsmoothie@gmail.com</a>
                 </p>
                 <ul class="list-inline banner-social-buttons">
