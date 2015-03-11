@@ -41,7 +41,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand page-scroll" href="#page-top">
-                    <i class="fa fa-play-circle"></i>  <span class="light">Start</span> SongSmoothie
+                    <i class="fa fa-play-circle"></i>  <span class="light">Search</span> SongSmoothie
                 </a>
             </div>
 
@@ -56,6 +56,10 @@
                         <a class="page-scroll" href="#about">Result</a>
                     </li>
                     
+                    <li>
+                        <a class="page-scroll" href="#download">Download/buy</a>
+                    </li>
+
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li>
@@ -73,13 +77,14 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <h1 class="brand-heading">SongSmoothie</h1>
-                        <div id="searchForm" action="" method="GET">
+                            <div id="searchForm" action="" method="GET">
 
-        <input type="text" name="song" placeholder="Song title..."/>
-        <a href="#about" class="page-scroll" >
-            <input type="submit"/>
-        </a>
-</div>
+                                <input type="text" name="song" placeholder="Song title..."/>
+                                    <a href="#about" class="page-scroll" >
+                                <input type="submit"/>
+                                    </a>
+                                   
+                            </div>
 
                     </div>
                 </div>
@@ -123,9 +128,9 @@
         <div class="download-section">
             <div class="container">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <h2>Download Grayscale</h2>
-                    <p>You can download Grayscale for free on the preview page at Start Bootstrap.</p>
-                    <a href="http://startbootstrap.com/template-overviews/grayscale/" class="btn btn-default btn-lg">Visit Download Page</a>
+                    <h2>Buy song on CDON</h2>
+                    <p>You can download the song or get your own copy on CDON.</p>
+                    <a href="http://www.cdon.se/musik" class="btn btn-default btn-lg">Visit store</a>
                 </div>
             </div>
         </div>
