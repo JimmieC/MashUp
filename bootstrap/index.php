@@ -81,7 +81,7 @@
 
                                 <input type="text" name="song" placeholder="Song title or artist"/>
                                     <a href="#about" class="page-scroll" >
-                                <input type="submit" value="Search" />
+                                <input type="submit" class="btn btn-default" value="Search" />
                                     </a>
 
                             </div>
