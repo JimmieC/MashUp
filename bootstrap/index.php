@@ -4,20 +4,14 @@
 <head>
 
 
-<link type="text/css" href="style/jquery.jscrollpane.css" rel="stylesheet" media="all" />
 
-<!-- the mousewheel plugin - optional to provide mousewheel support -->
-<script type="text/javascript" src="script/jquery.mousewheel.js"></script>
-
-<!-- the jScrollPane script -->
-<script type="text/javascript" src="script/jquery.jscrollpane.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
-</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-		
+
+
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,6 +30,7 @@
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -109,6 +104,7 @@
 						}
 						});
 </script>
+
                             </div>
 
                     </div>
@@ -128,40 +124,71 @@
                 if(isset($_GET['song'])){
                     $newSong = htmlspecialchars($_GET["song"]);
    
-				$video = getVideo($newSong);
- 
+				
+ 				$Result = getArtist($newSong);
+ 				if ($Result != "error")
+ 				{
+						$video = getVideo($Result->tracks->items[0]->name, $Result->tracks->items[0]->artists[0]->name);
+
+						$song = getSongs($Result->tracks->items[0]->name, $Result->tracks->items[0]->artists[0]->name); 
+						echo '<iframe id="ytplayer" type="text/html" width="640" height="390"
+ 						src="http://www.youtube.com/embed/' . $video->items[0]->id->videoId . '?autoplay=1&origin=http://example.com"
+ 						frameborder="0"></iframe>';
+
+ 					
+ 						if($song != "error")
+ 						{
+ 						
+	
+						$url = $song->url;
+						$html = file_get_html($url);
+	
+						$items = $html->find('div[class=lyricbox]');
+						$items = $items[0]->outertext;
+ 						}
+
+   					
+				}
+				else
+				{
+					$song = "error";
+					echo "ERRORS : SONG NOT FOUND";
+				}
 	
 				}
-	$Result = getArtist($newSong);
-	 $song = getSongs($Result->tracks->items[0]->name, $Result->tracks->items[0]->artists[0]->name); 
-	echo '<iframe id="ytplayer" type="text/html" width="640" height="390"
-  src="http://www.youtube.com/embed/' . $video->items[0]->id->videoId . '?autoplay=1&origin=http://example.com"
-  frameborder="0"></iframe>';
-
-    echo "<p>" . "Artist: " . $song->artist . "</p>";
-	echo "<p>" . "Title: " . $song->song . "</p>";
 	
-	$url = $song->url;
-	$html = file_get_html($url);
-	
-	$items = $html->find('div[class=lyricbox]');
-	$items = $items[0]->outertext;
-
                 ?>
-				<script> $(function() { $('.scroll-pane').jScrollPane(); });</script>
-				<div class="scroll-pane jspScrollable" style="overflow: hidden; padding: 0px; width: 760px;" tabindex="0">
-					<div class="jspContainer" style="width: 760px; height: 200px;">
-						<div class="jspPane" style="padding: 0px; width: 740px; top: 0px;">
-				<?php echo $items ?>
-				</div>
-				<div class="jspVerticalBar">
-				<div class="jspCap jspCapTop"></div>
-				<div class="jspTrack" style="height: 200px;"><div class="jspDrag" style="height: 73px; top: 0px;"><div class="jspDragTop"></div><div class="jspDragBottom"></div></div></div>
-				<div class="jspCap jspCapBottom"></div>
-				</div>
-				</div>
-				</div>
 				
+<div style="height:250px;
+width:695px;
+font-size:26px;
+overflow:auto;
+font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;" class="lyricsbox" value="lyricsbox" id="lyricsbox">
+
+<?php 
+				if(isset($_GET['song'])){
+					if($song != "error")
+					{
+						echo $items;
+					}
+					elseif ($Result != "error")
+ 					{
+ 							echo "Video found but no lyrics for it";
+ 					}
+ 					else
+ 					{
+ 					}	
+					}	
+				 ?>
+
+
+
+
+
+</div>
+      			
+   
+	
 
             </div>
         </div>
@@ -208,19 +235,16 @@
     </footer>
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
+ 	<script src="js/jquery.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
     <!-- Plugin JavaScript -->
     <script src="js/jquery.easing.min.js"></script>
 
-    <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
-
     <!-- Custom Theme JavaScript -->
     <script src="js/grayscale.js"></script>
+
 
 </body>
 
