@@ -15,7 +15,7 @@ $apiRequest3 = file_get_contents("https://api.spotify.com/v1/search?query=" . ur
 				$artistname = urlencode($spotifyObj->tracks->items[$i]->artists[0]->name);
 				
 
-				echo '<a href=/bootstrap/index.php?song=' . urldecode($spotifyObj->tracks->items[$i]->id) . '>' . $spotifyObj->tracks->items[$i]->name . " - " . $spotifyObj->tracks->items[$i]->artists[0]->name . "<br/>"; 
+				echo '<a href=index.php?song=' . urldecode($spotifyObj->tracks->items[$i]->id) . '>' . $spotifyObj->tracks->items[$i]->name . " - " . $spotifyObj->tracks->items[$i]->artists[0]->name . "<br/>"; 
 		}
 
 
