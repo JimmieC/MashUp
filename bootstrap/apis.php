@@ -23,7 +23,7 @@ function getSongs($title, $artist){
 		
 		$artist = str_replace(array('!','@', '$'), '', $artist);
 		$title = str_replace(array('!','@', '$'), '', $title);
-		echo "https://www.googleapis.com/youtube/v3/search?part=id%20&q=" . urlencode($artist)  . "+" . urlencode($title) . "+music+video%20&type=video%20&maxResults=1&key=AIzaSyD8bBn9-BXDY1Eror03nIg4xBciTfc34yM";
+		
 		$apiRequest2 = file_get_contents("https://www.googleapis.com/youtube/v3/search?part=id%20&q=" . urlencode($artist)  . "+" . urlencode($title) . "+music+video%20&type=video%20&maxResults=1&key=AIzaSyD8bBn9-BXDY1Eror03nIg4xBciTfc34yM");
 		$videoObj = json_decode($apiRequest2);
 		if (!$apiRequest2)

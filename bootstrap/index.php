@@ -109,27 +109,24 @@ function showResult(str) {
         <div class="intro-body">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <h1 class="brand-heading">SongSmoothie</h1>
-                            <div id="searchForm">
+                	<h1 class="brand-heading">SongSmoothie</h1>
+                    	<div class="col-md-8 col-md-offset-2">
+                        	<div id="searchForm">
                                 <form>
-<input type="text"  size="30" onkeyup="showResult(this.value)">
-<div id="livesearch"></div>
-</form>
-									<form action="" method="GET">
-                                <input type="text" name="song" placeholder="Song title or artist"/>
-                                    
-                                <input id="sendinfo" type="submit" class="btn btn-default" value="Search" />
-                                  </form>
+									<input type="text"  size="30" onkeyup="showResult(this.value)" placeholder="Search for song or artist here">
+									<div id="livesearch">
+									</div>
+								</form>
+									
 								<script type="text/javascript">
-						$(document).ready(function () {
-						if(window.location.href.indexOf("song") > -1) {
-							$('html, body').animate({
-							scrollTop: $("#about").offset().top
-							}, 2000);
-						}
-						});
-</script>
+								$(document).ready(function () {
+								if(window.location.href.indexOf("song") > -1) {
+								$('html, body').animate({
+								scrollTop: $("#about").offset().top
+								}, 2000);
+								}
+								});
+								</script>
 
                             </div>
 
