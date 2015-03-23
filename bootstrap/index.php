@@ -6,10 +6,32 @@
 
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 
 
+<script>
+function showResult(str) {
+  if (str.length==0) { 
+    document.getElementById("livesearch").innerHTML="";
+    document.getElementById("livesearch").style.border="0px";
+    return;
+  }
+  if (window.XMLHttpRequest) {
+    // code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  } else {  // code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function() {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+      document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
+      document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+    }
+  }
+  xmlhttp.open("GET","livesearch.php?q="+str,true);
+  xmlhttp.send();
+}
+</script>
 
 
     <meta charset="utf-8">
@@ -90,6 +112,10 @@
                     <div class="col-md-8 col-md-offset-2">
                         <h1 class="brand-heading">SongSmoothie</h1>
                             <div id="searchForm">
+                                <form>
+<input type="text"  size="30" onkeyup="showResult(this.value)">
+<div id="livesearch"></div>
+</form>
 									<form action="" method="GET">
                                 <input type="text" name="song" placeholder="Song title or artist"/>
                                     
@@ -124,13 +150,13 @@
                 if(isset($_GET['song'])){
                     $newSong = htmlspecialchars($_GET["song"]);
    
-				
+			
  				$Result = getArtist($newSong);
  				if ($Result != "error")
  				{
-						$video = getVideo($Result->tracks->items[0]->name, $Result->tracks->items[0]->artists[0]->name);
-
-						$song = getSongs($Result->tracks->items[0]->name, $Result->tracks->items[0]->artists[0]->name); 
+						$video = getVideo($Result->name, $Result->artists[0]->name);
+                        
+						$song = getSongs($Result->name, $Result->artists[0]->name); 
 						echo '<iframe id="ytplayer" type="text/html" width="640" height="390"
  						src="http://www.youtube.com/embed/' . $video->items[0]->id->videoId . '?autoplay=1&origin=http://example.com"
  						frameborder="0"></iframe>';
