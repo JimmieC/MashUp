@@ -26,8 +26,8 @@
 						$items = $items[0]->outertext;
 					
 
-				$arr = array('songname' => $songname, 'artist' => $songArtist, 'youtubeID' => $songvideoID, 'lyrics' => $items);
+				$arr = array('songname' => $songname, 'artist' => $songArtist, 'youtubeID' => $songvideoID, 'lyrics' =>$song->url);
  				echo json_encode($arr);
- 				echo $arr;
+ 				var_dump($arr);
 
                 ?>
