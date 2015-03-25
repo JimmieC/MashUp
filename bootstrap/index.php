@@ -40,7 +40,7 @@ function showResult(str) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Grayscale - Start Bootstrap Theme</title>
+    <title>Songsmoothie</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
