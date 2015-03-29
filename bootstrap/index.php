@@ -194,6 +194,7 @@
 				font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;" class="lyricsbox" value="lyricsbox" id="lyricsbox">
 
 				<?php 
+                    //Code for putting in the lyrics of the song. Check if there is an error otherwise echo them
 					if(isset($_GET['song'])){
 					if($song != "error"){
 						echo $items;
