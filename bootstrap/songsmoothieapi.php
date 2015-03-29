@@ -1,32 +1,30 @@
-  <?php
+<?php
 
-  				require "apis.php";
-  				include("simplehtml/simple_html_dom.php");
 
-               	$newsong = htmlspecialchars($_GET["song"]);
+  	//Vårt API som använda sig
+  	require "apis.php";
+  	include("simplehtml/simple_html_dom.php");
+
+  	//Hämta parameter från URL
+    $newsong = htmlspecialchars($_GET["song"]);
    		
-				
- 				$query = file_get_contents("https://api.spotify.com/v1/search?query=" . urlencode($newsong) . "&offset=0&limit=1&type=track");
- 				$Result = json_decode($query);
+	//Kör spotify API med newSong variabel
+ 	$query = file_get_contents("https://api.spotify.com/v1/search?query=" . urlencode($newsong) . "&offset=0&limit=1&type=track");
+ 	$Result = json_decode($query);
 	 			
-	 			$songname = $Result->tracks->items[0]->name;
-
-	 			$songArtist = $Result->tracks->items[0]->artists[0]->name;
+	//Få ut låt namn och artist
+	$songname = $Result->tracks->items[0]->name;
+	$songArtist = $Result->tracks->items[0]->artists[0]->name;
 				
-				$songvideo = getVideo($Result->tracks->items[0]->name, $Result->tracks->items[0]->artists[0]->name);
-				
-				$songvideoID = $songvideo->items[0]->id->videoId;
+	 //Kör apis funktion getVideo med inparameter från resultat, gör songvideoID till songvideos ID
+	$songvideo = getVideo($Result->tracks->items[0]->name, $Result->tracks->items[0]->artists[0]->name);
+	$songvideoID = $songvideo->items[0]->id->videoId;
 	
+	//Hämta länken från lyricsWikia genom deras API. Inparameter fån Result
+	$song = getSongs($Result->tracks->items[0]->name, $Result->tracks->items[0]->artists[0]->name); 
 
-				$song = getSongs($Result->tracks->items[0]->name, $Result->tracks->items[0]->artists[0]->name); 
-				$url = $song->url;
-						$html = file_get_html($url);
-	
-						$items = $html->find('div[class=lyricbox]');
-						$items = $items[0]->outertext;
-					
+	//Bygga en array med det vi vill ger i vårt API, sen retunera en JSON fromat av arrayn
+	$arr = array('songname' => $songname, 'artist' => $songArtist, 'youtubeID' => $songvideoID, 'lyrics' =>$song->url);
+ 	echo json_encode($arr);
 
-				$arr = array('songname' => $songname, 'artist' => $songArtist, 'youtubeID' => $songvideoID, 'lyrics' =>$song->url);
- 				echo json_encode($arr);
-
-                ?>
+?>
