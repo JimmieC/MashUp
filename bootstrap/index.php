@@ -5,33 +5,34 @@
 
 
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 
 
-<script>
-function showResult(str) {
-  if (str.length==0) { 
-    document.getElementById("livesearch").innerHTML="";
-    document.getElementById("livesearch").style.border="0px";
-    return;
-  }
-  if (window.XMLHttpRequest) {
-    // code for IE7+, Firefox, Chrome, Opera, Safari
-    xmlhttp=new XMLHttpRequest();
-  } else {  // code for IE6, IE5
-    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  xmlhttp.onreadystatechange=function() {
-    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-      document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
-      document.getElementById("livesearch").style.border="1px solid #A5ACB2";
-    }
-  }
-  xmlhttp.open("GET","livesearch.php?q="+str,true);
-  xmlhttp.send();
-}
-</script>
+	<script>
+		function showResult(str) {
+		// code for the live-search drop-down function
+  		if (str.length==0) { 
+    		document.getElementById("livesearch").innerHTML="";
+    		document.getElementById("livesearch").style.border="0px";
+    	return;
+  		}
+  		if (window.XMLHttpRequest) {
+    	// code for IE7+, Firefox, Chrome, Opera, Safari
+    	xmlhttp=new XMLHttpRequest();
+  		} else {  // code for IE6, IE5
+    	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  		}
+  			xmlhttp.onreadystatechange=function() {
+    	if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+      		document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
+      		document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+    		}
+  		}
+  			xmlhttp.open("GET","livesearch.php?q="+str,true);
+  			xmlhttp.send();
+		}
+	</script>
 
 
     <meta charset="utf-8">
@@ -104,7 +105,7 @@ function showResult(str) {
         <!-- /.container -->
     </nav>
 
-    <!-- Intro Header -->
+    <!-- Search section -->
     <header class="intro">
         <div class="intro-body">
             <div class="container">
@@ -114,31 +115,31 @@ function showResult(str) {
                         	<div id="searchForm">
                                 <form>
 									<input type="text"  size="30" onkeyup="showResult(this.value)" placeholder="Search for song or artist here">
-									<div id="livesearch">
-									</div>
+										<div id="livesearch">
+										</div>
 
-                                    <script type="text/javascript"> 
+                                    		<script type="text/javascript"> 
+                                    			// code for starting live-search
+												function stopRKey(evt) { 
+                                      				var evt = (evt) ? evt : ((event) ? event : null); 
+                                     				var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
+                                 				if ((evt.keyCode == 13) && (node.type=="text"))  {return false;} 
+                                    			} 
 
-                                    function stopRKey(evt) { 
-                                      var evt = (evt) ? evt : ((event) ? event : null); 
-                                     var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
-                                 if ((evt.keyCode == 13) && (node.type=="text"))  {return false;} 
-                                    } 
+                            						document.onkeypress = stopRKey; 
 
-                            document.onkeypress = stopRKey; 
-
-                                </script>
+                                			</script>
 								</form>
 									
-								<script type="text/javascript">
-								$(document).ready(function () {
-								if(window.location.href.indexOf("song") > -1) {
-								$('html, body').animate({
-								scrollTop: $("#about").offset().top
-								}, 2000);
-								}
-								});
-								</script>
+											<script type="text/javascript">
+													$(document).ready(function () {
+												if(window.location.href.indexOf("song") > -1) {
+													$('html, body').animate({
+													scrollTop: $("#about").offset().top
+													}, 2000);
+													}
+												});
+											</script>
 
                             </div>
 
@@ -153,74 +154,59 @@ function showResult(str) {
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 <?php
-
-                require "apis.php";
-                include("simplehtml/simple_html_dom.php");
-                if(isset($_GET['song'])){
-                    $newSong = htmlspecialchars($_GET["song"]);
-   
-			
- 				$Result = getArtist($newSong);
- 				if ($Result != "error")
- 				{
-						$video = getVideo($Result->name, $Result->artists[0]->name);
-                        
-						$song = getSongs($Result->name, $Result->artists[0]->name); 
+					require "apis.php";
+                	include("simplehtml/simple_html_dom.php");
+                		// code for retriving YouTube video and showing error message if not available
+                		if(isset($_GET['song'])){
+                    		$newSong = htmlspecialchars($_GET["song"]);
+							$Result = getArtist($newSong);
+ 						if ($Result != "error"){
+							$video = getVideo($Result->name, $Result->artists[0]->name);
+							$song = getSongs($Result->name, $Result->artists[0]->name); 
 						echo '<iframe id="ytplayer" type="text/html" width="640" height="390"
  						src="http://www.youtube.com/embed/' . $video->items[0]->id->videoId . '?autoplay=1&origin=http://example.com"
  						frameborder="0"></iframe>';
 
  					
- 						if($song != "error")
- 						{
- 						
+ 						if($song != "error"){
+							$url = $song->url;
+							$html = file_get_html($url);
 	
-						$url = $song->url;
-						$html = file_get_html($url);
-	
-						$items = $html->find('div[class=lyricbox]');
-						$items = $items[0]->outertext;
+							$items = $html->find('div[class=lyricbox]');
+							$items = $items[0]->outertext;
  						}
 
    					
-				}
-				else
-				{
-					$song = "error";
-					echo "ERRORS : SONG NOT FOUND";
-				}
+						}
+						else {
+							$song = "error";
+						echo "ERRORS : SONG NOT FOUND";
+						}
 	
-				}
+						}
 	
                 ?>
 				
-<div style="height:250px;
-width:695px;
-font-size:26px;
-overflow:auto;
-font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;" class="lyricsbox" value="lyricsbox" id="lyricsbox">
+			<div style="height:250px;
+				width:695px;
+				font-size:26px;
+				overflow:auto;
+				font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;" class="lyricsbox" value="lyricsbox" id="lyricsbox">
 
-<?php 
-				if(isset($_GET['song'])){
-					if($song != "error")
-					{
+				<?php 
+					if(isset($_GET['song'])){
+					if($song != "error"){
 						echo $items;
 					}
-					elseif ($Result != "error")
- 					{
- 							echo "Video found but no lyrics for it";
+					elseif ($Result != "error"){
+ 						echo "Video found but no lyrics for it";
  					}
  					else
  					{
  					}	
 					}	
 				 ?>
-
-
-
-
-
-</div>
+			</div>
       			
    
 	
@@ -229,7 +215,7 @@ font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;" class="lyr
         </div>
     </section>
 
-    <!-- Download Section -->
+    <!-- Download/buy link Section -->
     <section id="download" class="content-section text-center">
         <div class="download-section">
             <div class="container">
