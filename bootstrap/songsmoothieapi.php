@@ -16,7 +16,7 @@
 				$songvideo = getVideo($Result->tracks->items[0]->name, $Result->tracks->items[0]->artists[0]->name);
 				
 				$songvideoID = $songvideo->items[0]->id->videoId;
-				echo $songvideoID;
+	
 
 				$song = getSongs($Result->tracks->items[0]->name, $Result->tracks->items[0]->artists[0]->name); 
 				$url = $song->url;
@@ -28,6 +28,5 @@
 
 				$arr = array('songname' => $songname, 'artist' => $songArtist, 'youtubeID' => $songvideoID, 'lyrics' =>$song->url);
  				echo json_encode($arr);
- 				var_dump($arr);
 
                 ?>
